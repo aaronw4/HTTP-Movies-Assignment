@@ -39,7 +39,7 @@ export default class Update extends React.Component {
         axios
             .put(`https://arw-movie-database.herokuapp.com/api/movies/${this.props.match.params.id}`, movie)
             .then(res => {
-                window.location.replace(`/movies/${this.props.match.params.id}`)
+                window.location.replace(`/`)
                 console.log(res.data)
             })
             .catch(err => console.log(err));
