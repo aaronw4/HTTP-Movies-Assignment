@@ -5,10 +5,10 @@ export default class Update extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            movie: null,
+            id:'',
             title: '',
             director: '',
-            metascore: null,
+            metascore: '',
             stars: []
         };
     }
@@ -28,35 +28,40 @@ export default class Update extends React.Component {
     handleSubmit = e => {
         e.preventDefault();
 
+        let movie = {
+            id: this.props.match.params.id,
+            title: this.state.title,
+            director: this.state.director,
+            metascore: this.state.metascore,
+            stars: this.state.stars
+        }
+        console.log(movie)
         axios
-            .put(`http://localhost:5000/api/movies/${this.props.match.params.id}`, {
-                id: this.props.match.params.id,
-                title: this.state.title,
-                director: this.state.director,
-                metascore: this.state.metascore,
-                stars: this.state.stars
-
+            .put(`https://arw-movie-database.herokuapp.com/api/movies/${this.props.match.params.id}`, movie)
+            .then(res => {
+                window.location.replace(`/movies/${this.props.match.params.id}`)
+                console.log(res.data)
             })
-            .then(window.location.replace(`/movies/${this.props.match.params.id}`))
             .catch(err => console.log(err));
     };
 
     componentDidMount() {
         axios
-            .get(`http://localhost:5000/api/movies/${this.props.match.params.id}`)
+            .get(`https://arw-movie-database.herokuapp.com/api/movies/${this.props.match.params.id}`)
             .then(res => {
-                this.setState({movie: res.data});
-                this.setState({title: res.data.title});
-                this.setState({director: res.data.director});
-                this.setState({metascore: res.data.metascore});
-                this.setState({stars: res.data.stars});
+                this.setState({id: res.data[0].id});
+                this.setState({title: res.data[0].title});
+                this.setState({director: res.data[0].director});
+                this.setState({metascore: res.data[0].metascore});
+                this.setState({stars: res.data[0].stars});
+                console.log(res.data[0])
             })
             .catch(err => console.log(err.response));
     }
 
     render() {
-        console.log(this.state.stars)
-        if (!this.state.movie) {
+        console.log(this.state)
+        if (!this.state) {
             return <div>Loading....</div>;
         }
 

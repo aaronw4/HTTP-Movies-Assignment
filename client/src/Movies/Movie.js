@@ -22,8 +22,8 @@ export default class Movie extends React.Component {
 
   fetchMovie = id => {
     axios
-      .get(`http://localhost:5000/api/movies/${id}`)
-      .then(res => this.setState({ movie: res.data }))
+      .get(`https://arw-movie-database.herokuapp.com/api/movies/${id}`)
+      .then(res => this.setState({ movie: res.data[0] }))
       .catch(err => console.log(err.response));
   };
 

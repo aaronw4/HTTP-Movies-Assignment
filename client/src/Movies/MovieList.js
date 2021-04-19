@@ -9,10 +9,10 @@ export default class MovieList extends Component {
       movies: []
     };
   }
-
+  
   componentDidMount() {
     axios
-      .get("http://localhost:5000/api/movies")
+      .get("https://arw-movie-database.herokuapp.com/api/movies/")
       .then(res => this.setState({ movies: res.data }))
       .catch(err => console.log(err.response));
   }
